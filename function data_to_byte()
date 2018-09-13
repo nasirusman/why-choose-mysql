@@ -1,0 +1,31 @@
+DELIMITER $$
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `data_to_byte` (`data` VARCHAR(30)) RETURNS DOUBLE BEGIN
+
+SET @kilobyte_to_byte = 1000;
+SET @megabyte_to_byte = 1e+6;
+SET @gigabyte_to_byte = 1e+9;
+SET @terabyte_to_byte = 1e+12;
+SET @petabyte_to_byte = 1e+15;
+
+SET @kapasitas = SUBSTR(data, -2);
+SET @kapasitas_to_double = CAST(data AS DOUBLE);
+
+IF @kapasitas = 'KB' THEN
+	RETURN  @kapasitas_to_double * @kilobyte_to_byte;
+ELSEIF @kapasitas = 'MB' THEN
+	RETURN @kapasitas_to_double * @megabyte_to_byte;
+ELSEIF @kapasitas = 'GB' THEN
+	RETURN @kapasitas_to_double * @gigabyte_to_byte;
+ELSEIF @kapasitas = 'TB' THEN
+	RETURN @kapasitas_to_double * @terabyte_to_byte;
+ELSEIF @kapasitas = 'PB' THEN
+	RETURN @kapasitas_to_double * @petabyte_to_byte;
+ELSE
+	RETURN data;
+END IF;
+
+
+END$$
